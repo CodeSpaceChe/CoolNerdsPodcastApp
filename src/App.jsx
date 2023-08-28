@@ -29,6 +29,7 @@ function App() {
   
   return (
     <>
+    
       <NowPlaying  
         show={show}
         season={season} 
@@ -40,7 +41,6 @@ function App() {
         setSeason={setSeason}
       />
     </>
-  )
-}
+)}
 
 export default App

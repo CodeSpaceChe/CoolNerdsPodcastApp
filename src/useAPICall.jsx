@@ -20,6 +20,6 @@ export const useAPICall = () => {
     return {
         isLoading,
         error,
-        execute: useCallback(execute, [])
+        executeAPICall: useCallback(execute, [])
     };
 }

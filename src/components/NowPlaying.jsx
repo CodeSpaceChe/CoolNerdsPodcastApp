@@ -4,7 +4,7 @@ const NowPlaying = ({show, season, setSeason}) => {
     <>
       <div>
         {show.seasons ? 
-        show.seasons.map((v, i) => <button onClick={() => setSeason(i)}>{i + 1}</button> ) : 
+        show.seasons.map((v, i) => <button onClick={() => setSeason(i)} key={i}>{i + 1}</button> ) : 
         "Loading..."}
       </div>
       <div>
