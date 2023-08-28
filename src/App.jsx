@@ -1,8 +1,8 @@
 
 import './App.css'
 import { useState, useEffect } from 'react'
-import NowPlaying from '../NowPlaying'
-import Previews from '../Previews'
+import NowPlaying from './components/NowPlaying'
+import Previews from './components/Previews'
 import { useAPICall } from './useAPICall'
 
 
@@ -12,7 +12,7 @@ const show_url = "https://podcast-api.netlify.app/id/"
 
 function App() {
 
-  const [id, setId] = useState('')
+  const [currentShowId, setCurrentShowId] = useState('')
   const [previews, setPreviews] = useState([])
   const [show, setShow] = useState('')
   const [season, setSeason] = useState(0)
@@ -24,8 +24,8 @@ function App() {
   }, [])
 
   useEffect(() => {
-    executeAPICall(show_url+id, setShow)
-  }, [id])
+    executeAPICall(show_url+currentShowId, setShow)
+  }, [currentShowId])
   
   return (
     <>
@@ -36,7 +36,7 @@ function App() {
       />
       <Previews 
         previews={previews}
-        setId={setId}
+        setId={setCurrentShowId}
         setSeason={setSeason}
       />
     </>
