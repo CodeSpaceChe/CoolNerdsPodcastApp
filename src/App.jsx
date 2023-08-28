@@ -16,38 +16,17 @@ function App() {
   const [previews, setPreviews] = useState([])
   const [show, setShow] = useState('')
   const [season, setSeason] = useState(0)
-  const [error, setError] = useState(null);
   
-  // const apiCall = (url, setData, options = {}) => {
-  //   try {
-  //     fetch(url, options)
-  //     .then(response => response.json())
-  //     .then(json => setData(json))
-  //   } catch (e) {
-  //     setError(e);
-  //     throw e;
-  //   }
-  // };
-  
-  // useEffect(() => {
-  //   apiCall(previews_url, setPreviews)
-  // }, []);
-  
-  // useEffect(() => {
-  //   apiCall(show_url+id, setShow)
-  // }, [id]);
-
-  const {x, y, execute} = useAPICall()
+  const {isLoading, error, executeAPICall} = useAPICall()
   
   useEffect(() => {
-    execute(previews_url, setPreviews)
+    executeAPICall(previews_url, setPreviews)
   }, [])
 
   useEffect(() => {
-    execute(show_url+id, setShow)
+    executeAPICall(show_url+id, setShow)
   }, [id])
   
-
   return (
     <>
       <NowPlaying  
