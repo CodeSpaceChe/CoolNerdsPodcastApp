@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-export const useAPICall = (url, options = {}) => {
+export const useAPICall = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [data, setData] = useState(null);
     
-    useEffect(() => {
+    const execute = (url, setData, options = {}) => {
         try {
             setIsLoading(true);
             fetch(url, options)
@@ -16,11 +15,11 @@ export const useAPICall = (url, options = {}) => {
             setIsLoading(false);
             throw e;
         }
-      }, [])
+      };
 
     return {
         isLoading,
         error,
-        data,
+        execute: useCallback(execute, [])
     };
 }

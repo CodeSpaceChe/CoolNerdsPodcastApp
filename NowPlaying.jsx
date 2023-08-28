@@ -1,4 +1,4 @@
-const NowPlaying = ({show, season, setId, setSeason}) => {
+const NowPlaying = ({show, season, setSeason}) => {
 
   return (
     <>

@@ -3,6 +3,7 @@ import './App.css'
 import { useState, useEffect } from 'react'
 import NowPlaying from '../NowPlaying'
 import Previews from '../Previews'
+import { useAPICall } from './useAPICall'
 
 
 const previews_url = "https://podcast-api.netlify.app/shows"
@@ -17,32 +18,41 @@ function App() {
   const [season, setSeason] = useState(0)
   const [error, setError] = useState(null);
   
-  const apiCall = (url, setData, options = {}) => {
-    try {
-      fetch(url, options)
-      .then(response => response.json())
-      .then(json => setData(json))
-    } catch (e) {
-      setError(e);
-      throw e;
-    }
-  };
+  // const apiCall = (url, setData, options = {}) => {
+  //   try {
+  //     fetch(url, options)
+  //     .then(response => response.json())
+  //     .then(json => setData(json))
+  //   } catch (e) {
+  //     setError(e);
+  //     throw e;
+  //   }
+  // };
+  
+  // useEffect(() => {
+  //   apiCall(previews_url, setPreviews)
+  // }, []);
+  
+  // useEffect(() => {
+  //   apiCall(show_url+id, setShow)
+  // }, [id]);
+
+  const {x, y, execute} = useAPICall()
   
   useEffect(() => {
-    apiCall(previews_url, setPreviews)
-  }, []);
-  
+    execute(previews_url, setPreviews)
+  }, [])
+
   useEffect(() => {
-    apiCall(show_url+id, setShow)
-  }, [id]);
+    execute(show_url+id, setShow)
+  }, [id])
+  
 
   return (
     <>
-      <NowPlaying 
-        previews={previews} 
+      <NowPlaying  
         show={show}
         season={season} 
-        setId={setId} 
         setSeason={setSeason} 
       />
       <Previews 
