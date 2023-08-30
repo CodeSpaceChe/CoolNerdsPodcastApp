@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 
 export const useAPICall = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +20,6 @@ export const useAPICall = () => {
     return {
         isLoading,
         error,
-        executeAPICall: useCallback(execute, [])
+        executeAPICall: execute
     };
 }
