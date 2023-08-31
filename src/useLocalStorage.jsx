@@ -6,7 +6,7 @@ const getSavedValue = (key, initialValue) => {
     // if (initialValue instanceof Function) return initial value()
     return initialValue
 }
-
+7
 export const useLocalStorage = (key, initialValue) => {
     const [value, setValue] = useState(() => {
         return getSavedValue(key, initialValue);

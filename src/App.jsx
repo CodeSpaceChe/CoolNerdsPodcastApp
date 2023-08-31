@@ -13,12 +13,21 @@ function App() {
   const [show, setShow] = useState('')
   const [season, setSeason] = useState(0)
 
-  const [favourites, setFavourites] = useLocalStorage('favourites', [''])
+  const [favourites, setFavourites] = useLocalStorage('favourites', [])
   
   const {isLoading, error, executeAPICall} = useAPICall()
   
   const previews_url = new URL('https://podcast-api.netlify.app/shows');
   const show_url = new URL(`https://podcast-api.netlify.app/id/${currentShowId}`);
+
+  const updateFavourites = () => {
+    let newFavourites = favourites.map(favourite => favourite);
+    if (newFavourites.includes(currentShowId)) {
+      newFavourites = newFavourites.filter((showID) => showID !== currentShowId)
+    }
+    else newFavourites.push(currentShowId)
+    setFavourites(newFavourites);
+  }
 
   useEffect(() => {
     executeAPICall(previews_url, setPreviews)
@@ -30,7 +39,7 @@ function App() {
   
   return (
     <>
-      <button onClick={() => {favourites.unshift(currentShowId); setFavourites(favourites)}}>Click Me!</button>
+      <button onClick={updateFavourites} className={favourites.includes(currentShowId) ? 'green' : 'white'}>Click Me!</button>
       <NowPlaying  
         show={show}
         season={season} 
@@ -46,4 +55,3 @@ function App() {
 )}
 
 export default App
-
