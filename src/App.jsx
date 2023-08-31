@@ -1,35 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState, useEffect } from 'react'
+import NowPlaying from './components/NowPlaying'
+import Previews from './components/Previews'
+import { useAPICall } from './useAPICall'
+import { useLocalStorage } from './useLocalStorage'
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
+  const [currentShowId, setCurrentShowId] = useState('')
+  const [previews, setPreviews] = useState([])
+  const [show, setShow] = useState('')
+  const [season, setSeason] = useState(0)
+
+  const [favourites, setFavourites] = useLocalStorage('favourites', [])
+  
+  const {isLoading, error, executeAPICall} = useAPICall()
+  
+  const previews_url = new URL('https://podcast-api.netlify.app/shows');
+  const show_url = new URL(`https://podcast-api.netlify.app/id/${currentShowId}`);
+
+  const updateFavourites = () => {
+    let newFavourites = favourites.map(favourite => favourite);
+    if (newFavourites.includes(currentShowId)) {
+      newFavourites = newFavourites.filter((showID) => showID !== currentShowId)
+    }
+    else newFavourites.push(currentShowId)
+    setFavourites(newFavourites);
+  }
+
+  useEffect(() => {
+    executeAPICall(previews_url, setPreviews)
+  }, [])
+
+  useEffect(() => {
+    executeAPICall(show_url, setShow)
+  }, [currentShowId])
+  
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <NowPlaying  
+        show={show}
+        season={season} 
+        setSeason={setSeason} 
+        favourites={favourites}
+        updateFavourites={updateFavourites}
+      />
+
+      <Previews 
+        previews={previews}
+        setId={setCurrentShowId}
+        setSeason={setSeason}
+      />
     </>
-  )
-}
+)}
 
 export default App
