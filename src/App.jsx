@@ -39,11 +39,12 @@ function App() {
   
   return (
     <>
-      <button onClick={updateFavourites} className={favourites.includes(currentShowId) ? 'green' : 'white'}>Click Me!</button>
       <NowPlaying  
         show={show}
         season={season} 
         setSeason={setSeason} 
+        favourites={favourites}
+        updateFavourites={updateFavourites}
       />
 
       <Previews 
